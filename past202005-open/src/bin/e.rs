@@ -7,14 +7,19 @@ fn main() {
         mut c: [usize; N],
     }
 
-    let mut g: Vec<Vec<usize>> = vec![vec![]; N];
-    uv.iter().for_each(|(u, v)| {
-        let u_index = u - 1;
-        let v_index = v - 1;
+    let g = {
+        let mut g = vec![vec![]; N];
 
-        g[u_index].push(v_index);
-        g[v_index].push(u_index);
-    });
+        uv.iter().for_each(|(u, v)| {
+            let u_index = u - 1;
+            let v_index = v - 1;
+
+            g[u_index].push(v_index);
+            g[v_index].push(u_index);
+        });
+
+        g
+    };
 
     (0..Q).for_each(|_| {
         proconio::input! {
@@ -28,9 +33,9 @@ fn main() {
 
         match t {
             1 => {
-                for i in &g[x_index] {
+                g[x_index].iter().for_each(|i| {
                     c[*i] = c[x_index];
-                }
+                });
             }
             2 => {
                 proconio::input! {
@@ -39,7 +44,7 @@ fn main() {
 
                 c[x_index] = y;
             }
-            _ => panic!(),
+            _ => (),
         }
     });
 }
