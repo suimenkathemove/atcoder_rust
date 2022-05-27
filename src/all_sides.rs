@@ -1,4 +1,4 @@
-pub fn all_sides((i, j): (usize, usize)) -> Vec<(usize, usize)> {
+pub fn all_sides2((i, j): (usize, usize)) -> Vec<(usize, usize)> {
     let i = i as isize;
     let j = j as isize;
 
@@ -17,7 +17,7 @@ pub fn all_sides((i, j): (usize, usize)) -> Vec<(usize, usize)> {
         .collect()
 }
 
-pub fn all_sides2((i, j): (usize, usize)) -> Vec<(usize, usize)> {
+pub fn all_sides((i, j): (usize, usize)) -> Vec<(usize, usize)> {
     let mut all_sides = vec![];
 
     if i > 0 {
