@@ -17,6 +17,24 @@ pub fn all_sides((i, j): (usize, usize)) -> Vec<(usize, usize)> {
         .collect()
 }
 
+pub fn all_sides2((i, j): (usize, usize)) -> Vec<(usize, usize)> {
+    let mut all_sides = vec![];
+
+    if i > 0 {
+        all_sides.push((i - 1, j));
+    }
+
+    all_sides.push((i + 1, j));
+
+    if j > 0 {
+        all_sides.push((i, j - 1));
+    }
+
+    all_sides.push((i, j + 1));
+
+    all_sides
+}
+
 #[cfg(test)]
 mod tests {
     use crate::all_sides::all_sides;
