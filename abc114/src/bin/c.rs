@@ -1,36 +1,27 @@
+use proconio::input;
+
 fn main() {
-    proconio::input! {
-        n: usize,
+    input! {
+        N: usize,
     }
 
-    let mut answer = 0;
+    let mut ans = 0;
 
-    fn dfs(
-        n: usize,
-        answer: &mut usize,
-        current: usize,
-        new: usize,
-        includes_3: bool,
-        includes_5: bool,
-        includes_7: bool,
-    ) {
-        let new_current: usize = (current.to_string() + &new.to_string()).parse().unwrap();
-
-        if new_current > n {
+    fn dfs(current: usize, N: usize, ans: &mut usize, has_3: bool, has_5: bool, has_7: bool) {
+        if current > N {
             return;
         }
 
-        if includes_3 && includes_5 && includes_7 {
-            *answer += 1;
+        if has_3 && has_5 && has_7 {
+            *ans += 1;
         }
 
-        dfs(n, answer, new_current, 3, true, includes_5, includes_7);
-        dfs(n, answer, new_current, 5, includes_3, true, includes_7);
-        dfs(n, answer, new_current, 7, includes_3, includes_5, true);
+        dfs(current * 10 + 3, N, ans, true, has_5, has_7);
+        dfs(current * 10 + 5, N, ans, has_3, true, has_7);
+        dfs(current * 10 + 7, N, ans, has_3, has_5, true);
     }
-    dfs(n, &mut answer, 0, 3, true, false, false);
-    dfs(n, &mut answer, 0, 5, false, true, false);
-    dfs(n, &mut answer, 0, 7, false, false, true);
 
-    println!("{}", answer);
+    dfs(0, N, &mut ans, false, false, false);
+
+    println!("{}", ans);
 }
