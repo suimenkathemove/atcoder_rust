@@ -44,14 +44,6 @@ fn main() {
         visited: &mut Vec<Vec<bool>>,
         g: (usize, usize),
     ) {
-        if i >= h || j >= w {
-            return;
-        }
-
-        if c[i][j] == '#' {
-            return;
-        }
-
         visited[i][j] = true;
 
         if visited[g.0][g.1] {
@@ -60,6 +52,10 @@ fn main() {
 
         all_sides((i, j)).iter().for_each(|&(i, j)| {
             if i >= h || j >= w {
+                return;
+            }
+
+            if c[i][j] == '#' {
                 return;
             }
 
