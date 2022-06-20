@@ -4,28 +4,26 @@ fn main() {
         h: [isize; n],
     }
 
-    let mut cost = vec![0; n];
+    let initial_value = -1;
+    let mut dp = vec![initial_value; n];
 
-    let mut done = vec![false; n];
-
-    fn rec(i: usize, h: &Vec<isize>, cost: &mut Vec<isize>, done: &mut Vec<bool>) -> isize {
-        if done[i] {
-            return cost[i];
+    fn rec(i: usize, dp: &mut Vec<isize>, initial_value: isize, h: &[isize]) -> isize {
+        if dp[i] != initial_value {
+            return dp[i];
         }
 
-        cost[i] = match i {
-            0 => 0,
-            1 => (h[0] - h[1]).abs(),
-            _ => std::cmp::min(
-                rec(i - 1, h, cost, done) + (h[i - 1] - h[i]).abs(),
-                rec(i - 2, h, cost, done) + (h[i - 2] - h[i]).abs(),
-            ),
-        };
+        if i == 0 {
+            return 0;
+        }
 
-        done[i] = true;
+        let mut cost = rec(i - 1, dp, initial_value, h) + (h[i] - h[i - 1]).abs();
+        if i >= 2 {
+            cost = cost.min(rec(i - 2, dp, initial_value, h) + (h[i] - h[i - 2]).abs());
+        }
 
-        cost[i]
+        dp[i] = cost;
+
+        cost
     }
-
-    println!("{}", rec(n - 1, &h, &mut cost, &mut done));
+    println!("{}", rec(n - 1, &mut dp, initial_value, &h));
 }
