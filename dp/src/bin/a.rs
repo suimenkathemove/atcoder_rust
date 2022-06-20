@@ -4,14 +4,16 @@ fn main() {
         h: [isize; n],
     }
 
-    let mut cost = vec![0; n];
+    let mut cost = vec![std::isize::MAX; n];
 
-    cost[1] = (h[0] - h[1]).abs();
+    cost[0] = 0;
+
+    cost[1] = (h[1] - h[0]).abs();
 
     (2..n).for_each(|i| {
         cost[i] = std::cmp::min(
-            cost[i - 2] + (h[i - 2] - h[i]).abs(),
-            cost[i - 1] + (h[i - 1] - h[i]).abs(),
+            cost[i - 1] + (h[i] - h[i - 1]).abs(),
+            cost[i - 2] + (h[i] - h[i - 2]).abs(),
         );
     });
 
