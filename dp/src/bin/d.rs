@@ -2,40 +2,22 @@ fn main() {
     proconio::input! {
         N: usize,
         W: usize,
+        wv: [(usize, usize); N],
     }
 
-    let (ws, vs) = {
-        let mut ws = Vec::<usize>::new();
-        let mut vs = Vec::<usize>::new();
-        (0..N).for_each(|_| {
-            proconio::input! {
-                (ww, vv): (usize, usize),
-            }
-            ws.push(ww);
-            vs.push(vv);
-        });
-        (ws, vs)
-    };
+    let mut dp = vec![vec![0; W + 1]; N];
 
-    let mut value = vec![vec![0; W]; N];
-
-    value[0][ws[0] - 1] = vs[0];
+    dp[0][wv[0].0] = wv[0].1;
 
     (1..N).for_each(|n| {
-        (0..W).for_each(|w| {
-            let v1 = value[n - 1][w];
+        (0..=W).for_each(|w| {
+            dp[n][w] = dp[n][w].max(dp[n - 1][w]);
 
-            if w < ws[n] {
-                value[n][w] = v1;
-
-                return;
+            if w >= wv[n].0 {
+                dp[n][w] = dp[n][w].max(dp[n - 1][w - wv[n].0] + wv[n].1);
             }
-
-            let v2 = value[n - 1][w - ws[n]] + vs[n];
-
-            value[n][w] = std::cmp::max(v1, v2);
         });
     });
 
-    println!("{}", value[N - 1].iter().max().unwrap());
+    println!("{}", dp[N - 1].iter().max().unwrap());
 }
