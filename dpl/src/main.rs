@@ -1,3 +1,5 @@
+mod e;
+
 fn main() {
-    println!("Hello, world!");
+    e::main();
 }
